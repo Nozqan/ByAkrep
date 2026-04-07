@@ -18,13 +18,14 @@ class AkrepVipGold(App):
         self.root = BoxLayout(orientation='vertical')
         
         with self.root.canvas.before:
-            Color(0.05, 0.05, 0.05, 1)
+            Color(0.05, 0.05, 0.05, 1) # Koyu zemin
             self.bg = Rectangle(pos=self.root.pos, size=self.root.size)
-            Color(0.9, 0.1, 0.2, 0.15)
+            Color(0.9, 0.1, 0.2, 0.15) # Şeffaf kırmızı hareli kalpler
             for i in range(12):
                 Ellipse(pos=(50 + i*110, 200 + i*170), size=(110, 110))
         self.root.bind(pos=self.update_rect, size=self.update_rect)
 
+        # ÜST MÜHÜR: ByAkrep Sizi Koruyor
         self.root.add_widget(Label(
             text="[b][color=D4AF37]ByAkrep sizi koruyor[/color][/b]",
             markup=True, size_hint_y=None, height=130, font_size='26sp'
@@ -36,6 +37,7 @@ class AkrepVipGold(App):
         self.scroll.add_widget(self.chat_logs)
         self.root.add_widget(self.scroll)
 
+        # GİRİŞ PANELİ VE AKREP BUTONU
         input_area = BoxLayout(size_hint_y=None, height=140, padding=12, spacing=10)
         self.input = TextInput(
             hint_text="Bir mesaj yaz...", multiline=False,
@@ -52,6 +54,7 @@ class AkrepVipGold(App):
         input_area.add_widget(send_btn)
         self.root.add_widget(input_area)
 
+        # NETWORK
         self.soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         try: self.soc.bind(('', 9999))
@@ -97,3 +100,4 @@ class AkrepVipGold(App):
 
 if __name__ == '__main__':
     AkrepVipGold().run()
+        
