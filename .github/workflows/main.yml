@@ -5,17 +5,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # En güncel checkout
+      - uses: actions/checkout@v4
 
-      - name: Build with Buildozer
-        # Hata veren eski action yerine en sağlamını kullanıyoruz
-        uses: Kou-S/buildozer-action@v2 
-        with:
-          command: android debug
-          buildozer_version: master
+      - name: Gerekli Paketleri Kur
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip build-essential git python3 python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4 # Hata veren v3 yerine v4 yaptık
+      - name: Buildozer Kur
+        run: |
+          pip3 install --user --upgrade buildozer cython virtualenv
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: APK Derle (ByAkrep)
+        run: |
+          buildozer android debug
+        
+      - name: APK Dosyasını Yayınla
+        uses: actions/upload-artifact@v4
         with:
           name: ByAkrep-VIP-APK
           path: bin/*.apk
